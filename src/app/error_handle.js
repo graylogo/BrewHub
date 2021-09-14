@@ -23,6 +23,10 @@ const errorHandler = (error,ctx)=>{
             status = 400  // bad request
             message = '密码错误！'
             break;
+        case errorTypes.PARAMS_IS_INCORRECT:
+            status = 400  // bad request
+            message = '传参错误！'
+            break;
         case errorTypes.UNAUTHORIZED:
             status = 401  // unauthorized
             message = '无效token！'
