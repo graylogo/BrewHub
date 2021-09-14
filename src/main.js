@@ -1,7 +1,8 @@
 const app = require('./app')
 
-const config = require('./app/config.js')
+const {APP_PORT,APP_HOST} = require('./app/config.js')
 
-app.listen(config.APP_PORT,()=>{
-    console.log(`服务器在${config.APP_PORT}启动了！`);
+
+app.listen(APP_PORT,APP_HOST,()=>{
+    console.log(`服务器在${APP_HOST}:${APP_PORT}启动了！`);
 })
