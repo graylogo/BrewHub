@@ -10,7 +10,7 @@ class userService{
     async userIsExist(name){
         const statement = `select * from users where name=?;`
         const result = await connection.execute(statement,[name])
-        return !(result[0].length===0)
+        return result[0]
     }
 }
 

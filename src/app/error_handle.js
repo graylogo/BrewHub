@@ -11,6 +11,18 @@ const errorHandler = (error,ctx)=>{
             status = 409  // conflict  冲突
             message = '用户名已经存在！'
             break;
+        case errorTypes.USERNAME_IS_UNQUALIFIED:
+            status = 400  // bad request
+            message = '用户名长度为4-16位，只能包含英文、数字和下划线！'
+            break;
+        case errorTypes.USER_IS_NOT_EXIST:
+            status = 400  // bad request
+            message = '用户名不存在！'
+            break;
+        case errorTypes.PASSWD_IS_INCORRECT:
+            status = 400  // bad request
+            message = '密码错误！'
+            break;
         default:
             status = 404;
             message = '未知错误'
