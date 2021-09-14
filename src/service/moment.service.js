@@ -20,7 +20,7 @@ class momentService{
         return result[0]
     }
     async list(pageNum,pageSize){
-        const statement = `select
+        const statement =`select
         m.id id,
         m.content content,
         JSON_OBJECT('id',u.id,'name',u.name) author
@@ -30,6 +30,24 @@ class momentService{
         const [result] = await connection.execute(statement,[(pageNum*pageSize).toString(),pageSize])
         return result
     }
+    async update(id,connect){
+        const statement = `
+        update moment
+        set content = ?
+        where id = ?;`
+        const [result] = await connection.execute(statement,[connect,id])
+        if(result.affectedRows !== 1) return false
+        return result
+    }
+    async deleteById(id){
+        const statement = `
+            delete from moment
+            where id=?;`
+        const [result] = await connection.execute(statement,[id])
+        if(result.affectedRows !== 1) return false
+        return result
+    }
+
 }
 
 module.exports = new momentService()

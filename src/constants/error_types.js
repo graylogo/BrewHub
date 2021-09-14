@@ -5,7 +5,8 @@ USERNAME_IS_UNQUALIFIED = 'username_is_unqualified',
 USER_IS_NOT_EXIST = 'user_is_not_exist',
 PASSWD_IS_INCORRECT = 'passwd_is_incorrect',
 UNAUTHORIZED = 'unauthorized',
-PARAMS_IS_INCORRECT='param_is_incorrect'
+PARAMS_IS_INCORRECT='param_is_incorrect',
+NOT_PERMISSION = 'not_permission'
 
 
 module.exports = {
@@ -15,5 +16,6 @@ module.exports = {
     USER_IS_NOT_EXIST,
     PASSWD_IS_INCORRECT,
     UNAUTHORIZED,
-    PARAMS_IS_INCORRECT
+    PARAMS_IS_INCORRECT,
+    NOT_PERMISSION
 }

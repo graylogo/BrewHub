@@ -6,10 +6,12 @@ const {
     USER_IS_NOT_EXIST,
     USERNAME_IS_UNQUALIFIED,
     PASSWD_IS_INCORRECT,
-    UNAUTHORIZED
+    UNAUTHORIZED,
+    NOT_PERMISSION
 } =require('../constants/error_types')
 const md5Passwd = require('../utils/md5Passwd')
 const {PUBLIC_KEY} = require('../app/config')
+const authService = require('../service/auth.service')
 
 const verifyPasswd = async (ctx,next)=>{
     const {username,passwd} = ctx.request.body
@@ -55,12 +57,27 @@ const verifyAuth = async (ctx,next)=>{
         ctx.user = result
         await next()
     }catch(err){
-        console.log(err);
         const error = new Error(UNAUTHORIZED)
         return ctx.app.emit('error',error,ctx)
     }
 }
+const verifyPermission = async (ctx,next)=>{
+    //  1. 获取必要参数
+    const [params_key] = Object.keys(ctx.params)
+    const tableName = params_key.replace('_id','')
+    const colId = ctx.params[params_key]
+    const {id:userId} = ctx.user
+    // 2. 验证是否有权限
+    try {
+        const result = await authService.checkPermission(tableName,colId,userId)
+        if(!result) return ctx.app.emit('error',new Error(NOT_PERMISSION),ctx)
+        await next()
+    } catch (err) {
+        return ctx.app.emit('error',new Error(NOT_PERMISSION),ctx)
+    } 
+}
 module.exports = {
     verifyPasswd,
-    verifyAuth
+    verifyAuth,
+    verifyPermission
 }

@@ -31,6 +31,10 @@ const errorHandler = (error,ctx)=>{
             status = 401  // unauthorized
             message = '无效token！'
             break;
+        case errorTypes.NOT_PERMISSION:
+            status = 401  // unauthorized
+            message = '权限错误！'
+            break;
         default:
             status = 404;
             message = '未知错误'
