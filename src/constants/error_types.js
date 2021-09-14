@@ -3,7 +3,8 @@ USERNAME_OR_PASSWD_IS_REQUIRED = 'username_or_passwd_is_required',
 USER_IS_EXIST = 'user_is_exist',
 USERNAME_IS_UNQUALIFIED = 'username_is_unqualified',
 USER_IS_NOT_EXIST = 'user_is_not_exist',
-PASSWD_IS_INCORRECT = 'passwd_is_incorrect'
+PASSWD_IS_INCORRECT = 'passwd_is_incorrect',
+UNAUTHORIZED = 'unauthorized'
 
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
     USER_IS_EXIST,
     USERNAME_IS_UNQUALIFIED,
     USER_IS_NOT_EXIST,
-    PASSWD_IS_INCORRECT
+    PASSWD_IS_INCORRECT,
+    UNAUTHORIZED
 }

@@ -23,6 +23,10 @@ const errorHandler = (error,ctx)=>{
             status = 400  // bad request
             message = '密码错误！'
             break;
+        case errorTypes.UNAUTHORIZED:
+            status = 401  // unauthorized
+            message = '无效token！'
+            break;
         default:
             status = 404;
             message = '未知错误'

@@ -8,7 +8,7 @@ const md5Passwd = require('../utils/md5Passwd')
 
 const verifyUser = async (ctx,next)=>{
     const {username,passwd} = ctx.request.body
-    // TODO 1.验证用户名长度，规则
+    // 1.验证用户名长度，规则
     const rgx = /^[a-z0-9_-]{4,16}$/
     if(!rgx.test(username)){
         const error = new Error(USERNAME_IS_UNQUALIFIED)
