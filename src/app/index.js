@@ -2,9 +2,11 @@ const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
 const errorHandler = require('./error_handle')
 const useRoutes = require('../router')
+const logger = require('koa-logger')
 
 const app = new Koa()
 
+app.use(logger())
 app.use(bodyParser())
 
 // 请求路径中间件
