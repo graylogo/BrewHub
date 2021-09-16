@@ -37,6 +37,7 @@ const verifyPasswd = async (ctx,next)=>{
         const error = new Error(PASSWD_IS_INCORRECT)
         return ctx.app.emit('error',error,ctx)
     }
+    // 将用户信息房子啊ctx中
     ctx.user = user
     await next()
 }
@@ -61,6 +62,7 @@ const verifyAuth = async (ctx,next)=>{
         return ctx.app.emit('error',error,ctx)
     }
 }
+// verifyPermission 需要保证表名和传入的字段之间差了个_id
 const verifyPermission = async (ctx,next)=>{
     //  1. 获取必要参数
     const [params_key] = Object.keys(ctx.params)
