@@ -7,7 +7,8 @@ const {
     create,
     reply,
     update,
-    remove
+    remove,
+    list
 } = require('../controller/comment.controller')
 
 const router  = new Router({prefix: '/comment'})
@@ -18,5 +19,7 @@ router.post('/:comment_id/reply',verifyAuth,reply)
 router.patch('/:comment_id',verifyAuth,verifyPermission,update)
 // 删除评论
 router.delete('/:comment_id',verifyAuth,verifyPermission,remove)
+// 根据moment_id获取评论列表
+router.get('/',list)
 
 module.exports = router

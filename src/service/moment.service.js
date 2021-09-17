@@ -11,19 +11,38 @@ class momentService{
         const statement = `select
         m.id id,
         m.content content,
-        JSON_OBJECT('id',u.id,'name',u.name) author
+        JSON_OBJECT('id',u.id,'name',u.name) author,
+        (select count(*) from comment c where c.moment_id = m.id) replyCount,
+        JSON_ARRAYAGG(JSON_OBJECT(
+            'id',c2.id,
+            'content',c2.content,
+            'commentId',c2.comment_id,
+            'createAt',c2.createAt,
+            'updateAt',c2.updateAt,
+            'author',JSON_OBJECT('id',cu.id,'name',cu.name)
+            )) reply
         from moment m
         left join users u on m.user_id = u.id
-        where m.id = ?;`
-
-        const [result] = await connection.execute(statement,[id])
-        return result[0]
+        left join comment c2 on m.id = c2.moment_id
+        left join users cu on c2.user_id = cu.id
+        where m.id =?
+        group by m.id;`
+        try {
+            const [result] = await connection.execute(statement,[id])
+        console.log(result);
+        return result
+        } catch (err) {
+            console.log(err);
+        }
     }
     async list(pageNum,pageSize){
         const statement =`select
         m.id id,
         m.content content,
-        JSON_OBJECT('id',u.id,'name',u.name) author
+        m.createAt createAt,
+        m.updateAt updateAt,
+        JSON_OBJECT('id',u.id,'name',u.name) author,
+        (select count(*) from comment c where c.moment_id = m.id) replyCount
         from moment m
         left join users u on m.user_id = u.id
         limit ?,?;`

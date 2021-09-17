@@ -2,7 +2,8 @@ const {
     create,
     reply,
     update,
-    remove
+    remove,
+    list
 } = require('../service/comment.service')
 
 class commentController{
@@ -32,6 +33,11 @@ class commentController{
     async remove(ctx,next){
         const {comment_id} = ctx.params
         const result = await remove(comment_id)
+        ctx.body =  result
+    }
+    async list(ctx,next){
+        const {momentid:id} = ctx.query
+        const result = await list(id)
         ctx.body =  result
     }
 }
