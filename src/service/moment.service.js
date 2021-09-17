@@ -11,7 +11,7 @@ class momentService{
         const statement = `select
         m.id id,
         m.content content,
-        JSON_OBJECT('id',u.id,'name',u.name) author,
+        JSON_OBJECT('id',u.id,'name',u.name,'avatarUrl',u.avatarUrl) author,
         (select count(*) from comment c where c.moment_id = m.id) replyCount,
         if(count(c2.id),JSON_ARRAYAGG(JSON_OBJECT(
             'id',c2.id,
@@ -19,7 +19,7 @@ class momentService{
             'commentId',c2.comment_id,
             'createAt',c2.createAt,
             'updateAt',c2.updateAt,
-            'author',JSON_OBJECT('id',cu.id,'name',cu.name)
+            'author',JSON_OBJECT('id',cu.id,'name',cu.name,'avatarUrl',cu.avatarUrl)
             )),NULL) reply,
          if(count(l2.id),JSON_ARRAYAGG(JSON_OBJECT('id',l2.id,'name',l2.name)),NULL) labels
         from moment m
