@@ -1,0 +1,863 @@
+{
+	"info": {
+		"_postman_id": "6b9bc279-2aa1-424b-ae4e-e833f319fa96",
+		"name": "BrewHub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "用户",
+			"item": [
+				{
+					"name": "注册新用户",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "123456",
+									"description": "用户名不可以重复",
+									"type": "text"
+								},
+								{
+									"key": "passwd",
+									"value": "123456",
+									"description": "密码后台加密",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/users",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();",
+									"pm.globals.set('token',res.token?res.token:'')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "passwd",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/login",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录认证",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "wang",
+									"type": "text"
+								},
+								{
+									"key": "passwd",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/test",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查询用户",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/users",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取头像",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/users/4/avatar",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"users",
+								"4",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "动态",
+			"item": [
+				{
+					"name": "发布动态",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "connect",
+									"value": "发布第一条动态",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/moment",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"moment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查询某一条动态详情",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/moment/9",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"moment",
+								"9"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "多条动态列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}/moment?pageNum=1&pageSize=10",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"moment"
+							],
+							"query": [
+								{
+									"key": "pageNum",
+									"value": "1",
+									"description": "pageNum 从1开始"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除一条动态的某些标签",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"labelsid\":[1,2]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/moment1/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"moment1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(未实现)查询某个用户的所有动态 Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}/moment?pageNum=1&pageSize=10&id=1",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"moment"
+							],
+							"query": [
+								{
+									"key": "pageNum",
+									"value": "1",
+									"description": "pageNum 从1开始"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改一条动态",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "更新的内容",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/moment/24",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"moment",
+								"24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除一条动态",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/moment/24",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"moment",
+								"24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "动态添加标签（需要携带文章id）",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"labels\":[\"标签1\",\"标签标签\",\"新的标签内容\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/moment/9/labels",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"moment",
+								"9",
+								"labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查看文章图片",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/moment/picture/6ae477ab-3e7b-4b29-b8f0-e83ff2819cd4.png",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"moment",
+								"picture",
+								"6ae477ab-3e7b-4b29-b8f0-e83ff2819cd4.png"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "评论",
+			"item": [
+				{
+					"name": "获取某条动态的评论",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "发表一条评论",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "第一条评论的内容",
+									"type": "text"
+								},
+								{
+									"key": "moment_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/comment",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "对评论进行评论",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "对评论进行评论",
+									"type": "text"
+								},
+								{
+									"key": "moment_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/comment/2/reply",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"comment",
+								"2",
+								"reply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改评论",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "修改评论的内容",
+									"type": "text"
+								},
+								{
+									"key": "moment_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/comment/5",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"comment",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除评论",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}/comment/9",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"comment",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "标签",
+			"item": [
+				{
+					"name": "新增标签（数组和字符串）",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"labels\": [\"新签\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/labels",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取所有标签列表",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/labels",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"labels"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "文件上传",
+			"item": [
+				{
+					"name": "头像上传",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/Users/gray/Brew/Node/code/待上传图片/Mac秋天.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/upload/avatar",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"upload",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "文章中多张图片上传",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/Users/gray/Brew/Node/code/待上传图片/logo.png"
+								},
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/Users/gray/Brew/Node/code/待上传图片/Coco.png"
+								},
+								{
+									"key": "picture",
+									"type": "file",
+									"src": "/Users/gray/Brew/Node/code/待上传图片/Coco.png",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/upload/picture?momentid=1",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"upload",
+								"picture"
+							],
+							"query": [
+								{
+									"key": "momentid",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "（未实现）点赞",
+			"item": [
+				{
+					"name": "对文章点赞",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "取消点赞",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
