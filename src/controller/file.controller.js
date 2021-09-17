@@ -1,5 +1,6 @@
 const {
-    saveAvatar
+    saveAvatar,
+    savePicture
 } = require('../service/file.service')
 const {
     updateUserAvatar
@@ -14,6 +15,14 @@ class FileController{
         const avatarURL = `${APP_HOST}:${APP_PORT}/users/${id}/avatar`
         await updateUserAvatar(avatarURL,id)
         ctx.body = '上传头像成功！'
+    }
+    async savePicture(ctx,next){
+        const { momentid:moment_id } = ctx.query
+        const {id:user_id} = ctx.user
+        for(let file of ctx.req.files){
+            await savePicture(file.filename,file.mimetype,file.size,file.path,moment_id,user_id)
+        }
+        ctx.body = '上传图片成功！'
     }
 }
 

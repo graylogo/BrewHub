@@ -7,7 +7,8 @@ const {
     deleteById,
     update,
     addLabelToMoment,
-    removeLabel
+    removeLabel,
+    getPicture
 } = require('../controller/moment.controller.js')
 
 const {
@@ -30,6 +31,8 @@ router.delete('/:moment_id',verifyAuth,verifyPermission,deleteById)
 router.post('/:moment_id/labels',verifyAuth,verifyPermission,checkLabel,addLabelToMoment)
 // 删除文章的某些标签
 router.delete('/:moment_id/labels',verifyAuth,verifyPermission,removeLabel)
+// 提供访问图片的接口
+router.get('/picture/:filename',getPicture)
 
 
 module.exports = router

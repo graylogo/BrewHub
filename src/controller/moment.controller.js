@@ -1,3 +1,4 @@
+const fs = require('fs')
 const { PARAMS_IS_INCORRECT } = require('../constants/error_types')
 const {
     create,
@@ -12,6 +13,10 @@ const {
 const {
     labelAndMomentIsExist
 } = require('../service/label.service')
+
+const {
+    getPicInfo
+} = require('../service/file.service')
 class momentController{
     async create(ctx,next){
         // 1. 获取用户传递的动态信息
@@ -77,6 +82,20 @@ class momentController{
             statusCode: 200,
             message: '移除标签成功!'
         }
+    }
+    // 提供访问图片的接口
+    async getPicture(ctx,next){
+        let {filename} = ctx.params
+        const {size} = ctx.query
+        // 查询图片信息
+        const picInfo = await getPicInfo(filename)
+        const types = ['lager','middle','small']
+        // if(types.some(i=>i===size)){
+        //     filename+=`-${size}`
+        // }
+        // 提供图片查看得接口
+        ctx.response.set('content-type',picInfo.mimetype)
+        ctx.body = fs.createReadStream(`./${picInfo.path}${size?('-'+size):''}`)
     }
 }
 
