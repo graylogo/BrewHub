@@ -5,7 +5,8 @@ const {
     list,
     update,
     deleteById,
-    addLabelToMoment
+    addLabelToMoment,
+    removeLabel
 } = require('../service/moment.service')
 
 const {
@@ -64,6 +65,17 @@ class momentController{
         ctx.body = {
             statusCode: 200,
             message: '添加成功!'
+        }
+    }
+    async removeLabel(ctx,next){
+        const {labelsid} = ctx.request.body
+        const {moment_id} = ctx.params
+        for(let item of labelsid){
+        await removeLabel(item,moment_id) 
+        }
+        ctx.body = {
+            statusCode: 200,
+            message: '移除标签成功!'
         }
     }
 }

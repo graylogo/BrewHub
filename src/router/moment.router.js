@@ -6,7 +6,8 @@ const {
     list,
     deleteById,
     update,
-    addLabelToMoment
+    addLabelToMoment,
+    removeLabel
 } = require('../controller/moment.controller.js')
 
 const {
@@ -27,6 +28,8 @@ router.patch('/:moment_id',verifyAuth,verifyPermission,update)
 router.delete('/:moment_id',verifyAuth,verifyPermission,deleteById)
 // 发表动态的时候添加标签
 router.post('/:moment_id/labels',verifyAuth,verifyPermission,checkLabel,addLabelToMoment)
+// 删除文章的某些标签
+router.delete('/:moment_id/labels',verifyAuth,verifyPermission,removeLabel)
 
 
 module.exports = router
