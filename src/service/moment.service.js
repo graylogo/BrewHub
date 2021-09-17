@@ -27,13 +27,8 @@ class momentService{
         left join users cu on c2.user_id = cu.id
         where m.id =?
         group by m.id;`
-        try {
-            const [result] = await connection.execute(statement,[id])
-        console.log(result);
+        const [result] = await connection.execute(statement,[id])
         return result
-        } catch (err) {
-            console.log(err);
-        }
     }
     async list(pageNum,pageSize){
         const statement =`select
@@ -64,6 +59,19 @@ class momentService{
             where id=?;`
         const [result] = await connection.execute(statement,[id])
         if(result.affectedRows !== 1) return false
+        return result
+    }
+    async deleteById(id){
+        const statement = `
+            delete from moment
+            where id=?;`
+        const [result] = await connection.execute(statement,[id])
+        if(result.affectedRows !== 1) return false
+        return result
+    }
+    async addLabelToMoment(labelId,momentId){
+        const statement = `insert into moment_label (label_id,moment_id) values (?,?)`
+        const [result] = await connection.execute(statement,[labelId,momentId])
         return result
     }
 

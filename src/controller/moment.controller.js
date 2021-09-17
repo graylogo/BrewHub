@@ -4,9 +4,13 @@ const {
     getMomentById,
     list,
     update,
-    deleteById
+    deleteById,
+    addLabelToMoment
 } = require('../service/moment.service')
 
+const {
+    labelAndMomentIsExist
+} = require('../service/label.service')
 class momentController{
     async create(ctx,next){
         // 1. 获取用户传递的动态信息
@@ -43,6 +47,24 @@ class momentController{
         const result = await deleteById(moment_id)
         if(!result) return ctx.app.emit('error',new Error(),ctx)
         ctx.body = result
+    }
+    async addLabelToMoment(ctx,next){
+        const {labels} = ctx
+        const {moment_id} = ctx.params
+        for(let item of labels){
+            // 检查关系表中是否存在
+            const isExist = await labelAndMomentIsExist(item.id,moment_id)
+            // 不存在则添加
+            if(!isExist){
+                const result = await addLabelToMoment(item.id,moment_id)
+                if(!result) return ctx.app.emit('error',new Error(),ctx)
+                ctx.body = result
+            }
+        }
+        ctx.body = {
+            statusCode: 200,
+            message: '添加成功!'
+        }
     }
 }
 
